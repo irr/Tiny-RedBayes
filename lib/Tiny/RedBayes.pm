@@ -39,7 +39,7 @@ sub new {
                                     reconnect => $args{reconnect});
         foreach (@{$self->{classes}}) {
             $self->{redis}->sadd($self->{namespace} => $_);
-            $self->{redis}->set($self->k($_, "total") => "0");
+            $self->{redis}->setnx($self->k($_, "total") => "0");
         }
     } catch {
         die "error initializing redis classes [@{$self->{classes}}] ($_)";
